@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+    padding: 0;    
+    }
+    
+    .aside{
+        padding-top: 80px;
+        position: fixed;
+        top: 50px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* Scrollable contents if viewport is shorter than content. */
+        background-color: #2A3F54;
+    }
+    
+    
+    
+    a:hover{
+        text-decoration: none;
+        cursor: pointer;
+        color: #5d687d;
+    }
+    
+    
+    
+    .aside li {
+        padding: 10px 50px 10px 10px;
+        margin: 0px !important;
+        color: gainsboro;
+        width: 100%;
+    }
+    
+    .aside li:hover {
+        background-color: #425668;
+    }
+    
+    
+    .aside li.active {
+        background-color: #425668 !important;
+        border: 1px solid #194469;
+    }
+    
+    .aside  li a {
+        color: gainsboro;
+        display: block;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    
+    .aside  li a.active,.aside  li a:link{
+        text-decoration: none;
+    }
