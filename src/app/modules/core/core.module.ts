@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule,Routes } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
+
 
 import { LayoutComponent } from './layout/layout.component';
 import { AsideComponent } from './layout/aside/aside.component';
@@ -20,7 +20,6 @@ const routes:Routes=[
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [LayoutComponent, AsideComponent, NavComponent, SectionComponent],

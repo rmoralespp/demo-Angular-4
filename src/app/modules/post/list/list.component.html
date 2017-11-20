@@ -1,3 +1,41 @@
-<p>
-  list works!
-</p>
+<div *ngIf="message_service.messages.length" class="alert alert-success alert-dismissible div_mensajes" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+     {{message_service.last_message.text}}
+</div>
+
+
+<div class="panel panel-primary" style="clear:both">
+  <div class="panel-heading">CRUD Posts</div>
+  <div class="panel-body">
+      <div class="seccion_menu">
+        <a routerLink="/posts/add" class="pull-left btn btn-primary">Nuevo Post</a>
+        <input class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
+      </div>
+      <div class="seccion_tabla">  
+          <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                  <th>Id</th>
+                  <th class="col-xs-3">Titulo</th>
+                  <th class="col-xs-6">Contenido</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of posts; index as i">
+                <td> <span class="badge">{{post.id}}</span></td>
+                <td>{{post.title}}</td>
+                <td>{{post.body}}</td>
+                <td>
+                  <div class="btn-group">
+                      <button (click)="detailPost(post)"class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></button>
+                      <button (click)="deletePost(post)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                  </div>
+                     </td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+          </div>
+  </div>
+</div>
