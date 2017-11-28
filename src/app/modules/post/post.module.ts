@@ -12,7 +12,8 @@ import { NewComponent } from './new/new.component';
 
 //Import Servicios==============================================================
 import {PostService} from './post.service';
-import {MessageService} from '../shared/message.service';
+
+
 
 const routes: Routes = [
   
@@ -28,6 +29,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [ListComponent, DetailComponent, NewComponent],
-  providers: [PostService, MessageService]
+  providers: [PostService]
 })
 export class PostModule { }

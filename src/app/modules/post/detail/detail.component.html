@@ -5,10 +5,10 @@
     
     <form novalidate #PostForm="ngForm"  (ngSubmit)="savePost()">
           <div class="form-group"
-          [ngClass]="{
-            'has-error':   id.invalid && (id.dirty || id.touched), 
-            'has-success': id.valid   && (id.dirty || id.touched)}
-            "
+            [ngClass]="{
+              'has-error':   id.invalid && (id.dirty || id.touched), 
+              'has-success': id.valid   && (id.dirty || id.touched)
+            }"
           >
             <label class="label label-default" for="id">Id</label>
             <input 
@@ -67,8 +67,8 @@
           <div class="form-group"
               [ngClass]="{
                 'has-error':   id_usuario.invalid && (id_usuario.dirty || id_usuario.touched), 
-                'has-success': id_usuario.valid   && (id_usuario.dirty || id_usuario.touched)}
-                "
+                'has-success': id_usuario.valid   && (id_usuario.dirty || id_usuario.touched)
+              }"
           >
               <label class="label label-default" for="id_usuario">Id Usuario</label>
               <input

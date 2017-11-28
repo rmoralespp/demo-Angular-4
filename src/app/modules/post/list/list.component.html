@@ -1,6 +1,9 @@
-<div *ngIf="message_service.messages.length" class="alert alert-success alert-dismissible div_mensajes" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-     {{message_service.last_message.text}}
+<div *ngIf="message_object" 
+      class="alert alert-dismissible div_mensajes" 
+      role="alert"
+      [ngClass]="message_object.class"
+      >
+     {{message_object.text}}
 </div>
 
 
@@ -8,8 +11,8 @@
   <div class="panel-heading">CRUD Posts</div>
   <div class="panel-body">
       <div class="seccion_menu">
-        <a routerLink="/posts/add" class="pull-left btn btn-primary">Nuevo Post</a>
-        <input class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
+        <a routerLink="/posts/new" class="pull-left btn btn-primary">Nuevo Post</a>
+        <input [formControl]="searchField" class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
       </div>
       <div class="seccion_tabla">  
           <table class="table table-bordered table-striped">
@@ -31,7 +34,7 @@
                       <button (click)="detailPost(post)"class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></button>
                       <button (click)="deletePost(post)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                   </div>
-                     </td>
+                </td>
               </tr>
             </tbody>
             <tfoot></tfoot>

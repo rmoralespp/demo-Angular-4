@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms'; 
 
 import { MessageService } from './message.service';
 
@@ -9,14 +10,16 @@ import { MessageService } from './message.service';
   imports: [
     CommonModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [],
 
   providers:[MessageService],
   exports:[
     HttpModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 
 })

@@ -1,3 +1,100 @@
-<p>
-  new works!
-</p>
+<div class="panel panel-primary">
+  <div class="panel-heading">Nuevo Post</div>
+  <div *ngIf="post" class="panel-body">
+      
+    
+    <form novalidate #PostForm="ngForm"  (ngSubmit)="savePost()">
+          <div class="form-group"
+          [ngClass]="{
+            'has-error':   id.invalid && (id.dirty || id.touched), 
+            'has-success': id.valid   && (id.dirty || id.touched)}
+            "
+          >
+            <label class="label label-default" for="id">Id</label>
+            <input 
+                 required
+                 type="text" 
+                 class="form-control" 
+                 name="id" id="id" 
+                 placeholder="Id"
+                 [(ngModel)]='post.id' 
+                 #id= 'ngModel'       
+            >
+
+
+          </div>
+          <div class="form-group"
+            [ngClass]="{
+              'has-error':   titulo.invalid && (titulo.dirty || titulo.touched), 
+              'has-success':titulo.valid   && (titulo.dirty || titulo.touched)}
+              "
+          >
+            <label class="label label-default" for="titulo">Titulo</label>
+            <input 
+              required
+              type="text" 
+              class="form-control" 
+              name="titulo" 
+              id="titulo" 
+              placeholder="Titulo"
+              [(ngModel)]='post.title' 
+              #titulo= 'ngModel'       
+            >
+          </div>
+      
+          <div class="form-group"
+              [ngClass]="{
+                'has-error':   contenido.invalid && (contenido.dirty || contenido.touched), 
+                'has-success': contenido.valid   && (contenido.dirty || contenido.touched)}
+                "
+          >
+            
+              <label class="label label-default" for="contenido">Contenido</label>
+              <textarea 
+                  required
+                  id="contenido" 
+                  name="contenido"
+                  class="form-control" 
+                  rows="3"
+                  [(ngModel)]='post.body' 
+                  #contenido= 'ngModel'       
+              >
+              </textarea>
+          </div>
+      
+          
+          <div class="form-group"
+              [ngClass]="{
+                'has-error':   id_usuario.invalid && (id_usuario.dirty || id_usuario.touched), 
+                'has-success': id_usuario.valid   && (id_usuario.dirty || id_usuario.touched)}
+                "
+          >
+              <label class="label label-default" for="id_usuario">Id Usuario</label>
+              <input
+                  required
+                  type="text" 
+                  class="form-control" 
+                  name="id_usuario" 
+                  id="id_usuario" 
+                  placeholder="Id Usuario"
+                  [(ngModel)]='post.userId' 
+                  #id_usuario= 'ngModel'     
+               >
+          </div>
+          
+          <button [disabled]="PostForm.invalid" type="submit" class="btn btn-success">Enviar</button>
+          <button (click)="back()" class="btn btn-default">Regresar</button>
+      </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
