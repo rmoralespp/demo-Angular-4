@@ -51,9 +51,8 @@ export class PostService {
 
 
   getPost(id):Observable<Post>{
-    let url=`${this._api_url}/${id}`;
-    return this.http.get(url)
-                    .map(res => res.json() as Post);
+     return this.posts$.map(posts=>posts.find(post=>post.id == id));
+
   }
 
 

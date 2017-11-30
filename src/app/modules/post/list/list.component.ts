@@ -24,6 +24,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public posts: Post[];
   public copia_posts:Post[];
   public message_object: Object;
+  public is_delete:boolean;
   
   
 
@@ -38,6 +39,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.getPosts();
       this.searchPosts();
       this.listenerMessages();
+   
 
   }
 
@@ -64,11 +66,20 @@ export class ListComponent implements OnInit, OnDestroy {
                                     });
   }
 
+
+  toogleDelete(post){
+    post.is_delete?post.is_delete=false:post.is_delete=true;
+  }
+
   
 
   getPosts(){
    this.subscription_post = this.posts$.subscribe(
-      (posts)=> {  this.posts=posts;  this.copia_posts=posts;  }
+      (posts)=> {  
+        this.posts=posts;  
+        this.copia_posts=posts; 
+      
+       }
     )
   }
 
@@ -90,8 +101,36 @@ export class ListComponent implements OnInit, OnDestroy {
       this.message_object=message_object;
     }
   );
-
 }
+
+
+crearListaPages(num_pages, current_page){
+  let izquiera=1
+  let derecha=num_pages
+  let pagina_actual=current_page
+  let final2=[]
+  if (pagina_actual > 3){
+    izquiera=pagina_actual-2
+  }
+      
+  if(derecha-pagina_actual>3){
+    derecha=pagina_actual+2
+  }
+      
+  
+  for(let i=izquiera; i<=derecha;i++){
+    final2.push(i);
+  }
+  if(izquiera!=1){
+    final2.splice(0, 0, 1);
+  }
+     
+  if(derecha != num_pages){
+    final2.push(num_pages)
+  }
+  return final2
+}
+
 
 
 }

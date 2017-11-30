@@ -32,10 +32,9 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-   this.subscription_route= this.route.params.subscribe(
+   this.subscription_route = this.route.params.subscribe(
       (params)=>{
-         this.single_post$=this.post_service.posts$
-                               .map(posts=>posts.find(post=>post.id == params['id']));
+          this.single_post$=this.post_service.getPost(params['id']);             
           this.single_post$.subscribe(
               (res)=> this.post=res,
               (error)=> {
