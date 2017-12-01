@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 
 import { MessageService } from './message.service';
+import {PagerService} from './pager.service';
 
 @NgModule({
   imports: [
@@ -15,11 +16,12 @@ import { MessageService } from './message.service';
   ],
   declarations: [],
 
-  providers:[MessageService],
+  providers:[MessageService,PagerService],
   exports:[
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ]
 
 })

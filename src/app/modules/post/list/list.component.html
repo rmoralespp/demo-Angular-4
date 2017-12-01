@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let post of posts; index as i">
+              <tr *ngFor="let post of page_posts; index as i">
                 <td> <span class="badge">{{post.id}}</span></td>
                 <td>{{post.title}}</td>
                 <td>{{post.body}}</td>
@@ -36,9 +36,7 @@
                   </div>
                   <div class="btn-group" *ngSwitchCase="true"> 
                     <button (click)="toogleDelete(post)"class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                    <button (click)="deletePost(post)" class="btn btn-danger">
-                      <span class="glyphicon glyphicon-ok"></span>
-                    </button>
+                    <button (click)="deletePost(post)" class="btn btn-danger"><span class="glyphicon glyphicon-ok"></span></button>
                   </div>
                 </td>
               </tr>
@@ -46,14 +44,25 @@
             <tfoot></tfoot>
           </table>
           </div>
-          <div class="panel-footer">
-                <ul class="pagination">
-                  <li class="disabled"><a href="#" aria-label="Previous">Anterior</a></li>
-                  <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                  <li><a href="#">2 <span class="sr-only">(current)</span></a></li>
-                  <li><a href="#">3 <span class="sr-only">(current)</span></a></li>
-                  <li class="disabled"><a href="#" aria-label="Previous">Siguiente</a></li>            
-                </ul>
+          <div>
+                <!-- pager -->
+                <ul *ngIf="pager.pages && pager.pages.length" class="pagination pull-right">
+                  <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(1)">First</a>
+                  </li>
+                  <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                  </li>
+                  <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                      <a (click)="setPage(page)">{{page}}</a>
+                  </li>
+                  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                  </li>
+                  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                  </li>
+              </ul>
           </div>
   </div>
 </div>

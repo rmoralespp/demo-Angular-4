@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 
 //Local
 import {MessageService} from '../../shared/message.service';
+import {PagerService} from '../../shared/pager.service';
 import {PostService} from '../post.service';
 import {Post} from '../post.model';
 
@@ -22,15 +23,18 @@ export class ListComponent implements OnInit, OnDestroy {
   public searchField:FormControl;
   public posts$: Observable<Post[]>
   public posts: Post[];
+  public page_posts: Post[];
   public copia_posts:Post[];
   public message_object: Object;
   public is_delete:boolean;
+  public pager:any;
   
   
 
   constructor(
     private post_service:PostService, 
     public message_service:MessageService,
+    public pager_service:PagerService,
     private router:Router
   ) { }
 
@@ -39,9 +43,24 @@ export class ListComponent implements OnInit, OnDestroy {
       this.getPosts();
       this.searchPosts();
       this.listenerMessages();
+     
    
 
   }
+
+  setPage(page: number) {
+    this.pager = this.pager_service.getPager(this.posts.length, page);
+    
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    this.page_posts = this.posts.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    
+    
+    
+    
+}
 
   ngOnDestroy(){
     this.subscription_post.unsubscribe()
@@ -55,12 +74,16 @@ export class ListComponent implements OnInit, OnDestroy {
                                       if(term != "") {     
                                          this.post_service.searchPosts$(term)
                                          .subscribe(
-                                           res=> this.posts=res,
+                                           res=> {
+                                            this.posts=res,
+                                            this.setPage(1);
+                                           },
                                            error=> this.post_service.handleMessage('error',`Error al buscar Post con titulo ${term}`)
                                          )
                                       }
                                       else{
                                          this.posts=this.copia_posts;
+                                         this.setPage(1);
                                       }
                                       
                                     });
@@ -78,7 +101,7 @@ export class ListComponent implements OnInit, OnDestroy {
       (posts)=> {  
         this.posts=posts;  
         this.copia_posts=posts; 
-      
+        this.setPage(1);
        }
     )
   }
@@ -104,32 +127,7 @@ export class ListComponent implements OnInit, OnDestroy {
 }
 
 
-crearListaPages(num_pages, current_page){
-  let izquiera=1
-  let derecha=num_pages
-  let pagina_actual=current_page
-  let final2=[]
-  if (pagina_actual > 3){
-    izquiera=pagina_actual-2
-  }
-      
-  if(derecha-pagina_actual>3){
-    derecha=pagina_actual+2
-  }
-      
-  
-  for(let i=izquiera; i<=derecha;i++){
-    final2.push(i);
-  }
-  if(izquiera!=1){
-    final2.splice(0, 0, 1);
-  }
-     
-  if(derecha != num_pages){
-    final2.push(num_pages)
-  }
-  return final2
-}
+
 
 
 
