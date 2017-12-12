@@ -1,56 +1,71 @@
 //Angular
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import {FormControl} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 //rxJS
 import 'rxjs/Rx';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 //Local
-import {MessageService} from '../../shared/message.service';
-import {PagerService} from '../../shared/pager.service';
-import {PostService} from '../post.service';
-import {Post} from '../post.model';
+import { MessageService } from '../../core/services/message.service';
+import { PagerService } from '../../shared/pager.service';
+import { PostService } from '../post.service';
+
+
+import { Post } from '../post.model';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
+
 export class ListComponent implements OnInit, OnDestroy {
+
   private subscription_post:any;
   public searchField:FormControl;
   public posts$: Observable<Post[]>
   public posts: Post[];
   public page_posts: Post[];
   public copia_posts:Post[];
-  public message_object: Object;
+  public message_data: Object;
+  public subscription_message: any;
   public is_delete:boolean;
   public pager:any;
+  private current_page:number = 1;
+  private scroll_current_page:number = 1;
   
   
+
 
   constructor(
     private post_service:PostService, 
     public message_service:MessageService,
     public pager_service:PagerService,
-    private router:Router
+    private router:Router,
+    private route:ActivatedRoute,
   ) { }
 
   ngOnInit() {
-      this.posts$=this.post_service.posts$;
-      this.getPosts();
-      this.searchPosts();
-      this.listenerMessages();
-     
-   
-
+      this.route.params.subscribe(
+        params => {
+          //se utiliza el signo + es para convertir a numero
+          this.current_page = +params['page'] || 1;
+          this.scroll_current_page = +params['scroll'] || 0; 
+          this.getPosts();
+          this.searchPosts();
+          this.observerMessages();
+        }
+      )
   }
+
+
+  
 
   setPage(page: number) {
     this.pager = this.pager_service.getPager(this.posts.length, page);
-    
+    this.current_page = page;
     if (page < 1 || page > this.pager.totalPages) {
         return;
     }
@@ -63,7 +78,8 @@ export class ListComponent implements OnInit, OnDestroy {
 }
 
   ngOnDestroy(){
-    this.subscription_post.unsubscribe()
+    this.subscription_post.unsubscribe();
+    this.subscription_message.unsubscribe();
  }
 
   searchPosts(){
@@ -91,40 +107,60 @@ export class ListComponent implements OnInit, OnDestroy {
 
 
   toogleDelete(post){
-    post.is_delete?post.is_delete=false:post.is_delete=true;
+    post.is_delete?post.is_delete = false:post.is_delete = true;
   }
 
   
 
   getPosts(){
-   this.subscription_post = this.posts$.subscribe(
+   this.subscription_post = this.post_service.posts$.subscribe(
       (posts)=> {  
-        this.posts=posts;  
-        this.copia_posts=posts; 
-        this.setPage(1);
+        this.posts = posts;  
+        this.copia_posts = posts; 
+        this.update_posicion_page();
        }
     )
   }
 
+  update_posicion_page(){
+    this.setPage(this.current_page);
+    window.scrollTo(0,this.scroll_current_page);
+  }
 
+
+
+  newPost(){
+    let scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    this.router.navigate(['/posts','new'], {queryParams:{scroll:scroll,page:this.current_page}});
+    return false
+  }
  
   detailPost(post:Post){
-    this.router.navigate(['/posts',post.id]);
+    let scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    this.router.navigate(['/posts',post.id,{scroll:scroll,page:this.current_page}]);
  }
 
 
 
  deletePost(post:Post){
-     this.post_service.deletePost(post);
+   if(localStorage.getItem('currentUser')) {
+    this.post_service.deletePost(post);
+   }
+   else {
+     this.message_service.showMessageWarning('No esta autorizado para realizar esta accion');
+   }
+     
  }
 
- listenerMessages(){
-  this.post_service.message_emitter.subscribe(
-    (message_object) =>{
-      this.message_object=message_object;
+ observerMessages(){
+  this.subscription_message=this.message_service.message_emitter.subscribe(
+    (message) =>{
+      this.message_data=message;
     }
   );
 }
+
+
 
 
 

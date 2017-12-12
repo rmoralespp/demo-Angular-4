@@ -4,8 +4,11 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 
-import { MessageService } from './message.service';
-import {PagerService} from './pager.service';
+
+import { PagerService } from './pager.service';
+
+
+
 
 @NgModule({
   imports: [
@@ -16,7 +19,10 @@ import {PagerService} from './pager.service';
   ],
   declarations: [],
 
-  providers:[MessageService,PagerService],
+  providers:[
+    PagerService,  
+  ],
+
   exports:[
     HttpModule,
     FormsModule,

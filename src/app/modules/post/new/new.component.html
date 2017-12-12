@@ -4,26 +4,7 @@
       
     
     <form novalidate #PostForm="ngForm"  (ngSubmit)="savePost()">
-          <div class="form-group"
-          [ngClass]="{
-            'has-error':   id.invalid && (id.dirty || id.touched), 
-            'has-success': id.valid   && (id.dirty || id.touched)}
-            "
-          >
-            <label class="label label-default" for="id">Id</label>
-            <input 
-                 required
-                 type="text" 
-                 class="form-control" 
-                 name="id" id="id" 
-                 placeholder="Id"
-                 [(ngModel)]='post.id' 
-                 #id= 'ngModel'       
-            >
-
-
-          </div>
-          <div class="form-group"
+      <div class="form-group"
             [ngClass]="{
               'has-error':   titulo.invalid && (titulo.dirty || titulo.touched), 
               'has-success':titulo.valid   && (titulo.dirty || titulo.touched)}

@@ -11,15 +11,15 @@ import { DetailComponent } from './detail/detail.component';
 import { NewComponent } from './new/new.component';
 
 //Import Servicios==============================================================
-import {PostService} from './post.service';
+import { PostService } from './post.service';
 
-
+import { AuthGuard }  from '../../guards/auth.guard';
 
 const routes: Routes = [
   
     { path:  '',     component: ListComponent},
-    { path:  'new',  component: NewComponent},
-    { path:  ':id',  component: DetailComponent}, 
+    { path:  'new',  component: NewComponent,    canActivate: [AuthGuard] },
+    { path:  ':id',  component: DetailComponent, canActivate: [AuthGuard] }, 
   ]
 
 @NgModule({
@@ -28,7 +28,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ListComponent, DetailComponent, NewComponent],
-  providers: [PostService]
+  declarations: [ ListComponent, DetailComponent, NewComponent ],
+  providers:    [ PostService ]
 })
 export class PostModule { }

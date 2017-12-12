@@ -14,14 +14,20 @@ import {Post} from '../post.model';
 })
 export class NewComponent implements OnInit {
   public post:Post;
+  private page_post:number;
+  private scroll_page_post:number;
+
   constructor(
     private router:Router,
     private route: ActivatedRoute,
     private post_service:PostService,
     private location: Location,
+    
   ) { }
 
   ngOnInit() {
+    this.page_post = this.route.snapshot.queryParams['page'] || 1;
+    this.scroll_page_post = this.route.snapshot.queryParams['scroll'] || 0;  
     this.post=new Post(null, "","",null);
   }
 
@@ -35,7 +41,8 @@ export class NewComponent implements OnInit {
   }
 
   back(){
-    this.location.back();
+    this.router.navigate(['/posts', { page:this.page_post, scroll: this.scroll_page_post }])
+    //this.location.back();
   }
 
 }

@@ -1,17 +1,17 @@
-<div *ngIf="message_object" 
+<div *ngIf="message_data" 
       class="alert alert-dismissible div_mensajes" 
       role="alert"
-      [ngClass]="message_object.class"
+      [ngClass]="message_data.class"
       >
-     {{message_object.text}}
+     {{message_data.text}}
 </div>
 
-
+<h1 *ngIf="user">Bienvenido {{ user.username }}</h1>
 <div class="panel panel-primary" style="clear:both">
   <div class="panel-heading">CRUD Posts</div>
   <div class="panel-body">
       <div class="seccion_menu">
-        <a routerLink="/posts/new" class="pull-left btn btn-primary">Nuevo Post</a>
+        <a (click)="newPost()" class="pull-left btn btn-primary">Nuevo Post</a>
         <input [formControl]="searchField" class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
       </div>
       <div class="seccion_tabla">  

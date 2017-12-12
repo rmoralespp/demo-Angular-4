@@ -1,33 +1,37 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import {Http} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions, Headers } from '@angular/http';
 
 
 
 // Import RxJs required methods
-import {Observable} from 'rxjs/Observable';
+import { Observable }      from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
 //Local
-import {Post} from './post.model';
-
+import { Post } from './post.model';
+import { MessageService } from '../core/services/message.service';
 
 @Injectable()
 export class PostService {
-  private _api_url : string='https://jsonplaceholder.typicode.com/posts';  
+  private _api_url : string='https://jsonplaceholder.typicode.com/posts';
+  //private _api_url : string='http://192.168.1.137:8000/api/posts';  
+  //private _api_url : string='/api/posts';
+
   private _posts$: BehaviorSubject<Post[]>;
-  private _dataStore: { posts: Post[]};
-  public  message_emitter: EventEmitter<Object>
+  private _dataStore: { posts: Post[] };
   public  posts$: Observable<Post[]>;
  
    
-  constructor( private http:Http) { 
+  constructor( 
+    private http:Http,
+    private message_service:MessageService
+  ) { 
     this._posts$ = <BehaviorSubject<Post[]>> new BehaviorSubject([]);
     this.posts$  = this._posts$.asObservable();
     this._dataStore={posts: []};
-    this.message_emitter= new EventEmitter();
     this.loadPosts();
   }
 
@@ -57,16 +61,16 @@ export class PostService {
 
 
   addPost(post: Post){
-    this.http.post(this._api_url,post)
+    this.http.post(this._api_url+"/",post)
               .map(res => res.json() as Post)
               .subscribe(
                 { 
                   next :(post_data)=>{
                     this._dataStore.posts.push(post_data);  
                     this._posts$.next(Object.assign({}, this._dataStore).posts);
-                    this.handleMessage("exito",`Post ${post.id} registrado con exito`) 
+                    this.handleMessage("exito",`Post ${post_data.id} registrado con exito`) 
                   },
-                  error: (error)=> this.handleMessage("error",`Error al registar el Post ${post.id}`)
+                  error: (error)=> this.handleMessage("error",`${error}`)
                 } 
             )
     }
@@ -78,14 +82,16 @@ export class PostService {
              .map(res => res.json() as Post)
              .subscribe(
                 { 
+                
                   next :(post_data)=>{
+                    
                     this._dataStore.posts.forEach((p, i) => {
                       if (p.id === post_data.id) { this._dataStore.posts[i] = post_data; }
                     });
                     this._posts$.next(Object.assign({}, this._dataStore).posts);
                     this.handleMessage("exito",`Post ${post.id} editado con exito`) 
                   },
-                  error: (error)=> this.handleMessage("error",`Error al editar el Post ${post.id}`)
+                  error: (error)=> this.handleMessage("error",`${error}`)
                 } 
             )
                    
@@ -104,7 +110,7 @@ export class PostService {
                     this._posts$.next(Object.assign({}, this._dataStore).posts);
                     this.handleMessage("exito",`Post ${post.id} eliminado con exito`)
                   },
-                  error: (error)=> this.handleMessage("error",`Error al eliminar el Post ${post.id}`)
+                  error: (error)=> this.handleMessage("error",`${error}`)
                 } 
             )
                    
@@ -123,10 +129,22 @@ searchPosts$(termino:string):Observable<Post[]>{
 
 
 handleMessage(tipo,message){
-  let msg:{class:string, text:string}={class:'',text:message};
-  (tipo == 'error')? msg.class="alert-danger":msg.class="alert-success"
-  this.message_emitter.emit(msg);
+   this.message_service.showMessage(tipo,message);
 }
+
+
+private jwt() {
+  // create authorization header with jwt token
+  let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser && currentUser.token) {
+      let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
+      return new RequestOptions({ headers: headers });
+  }
+}
+
+
+
+
 
 
 }
