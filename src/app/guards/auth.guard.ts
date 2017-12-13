@@ -14,12 +14,13 @@ export class AuthGuard implements CanActivate, CanLoad {
   ) { }
 
   canLoad(route: Route ): boolean{
-    console.log(this.auth_service.user);
+    let currenturl = `/${route.path}`;
+
     if(this.auth_service.user){
       return true
     }
     else {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: '/home' }});
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: currenturl }});
       return false;
     }
     
@@ -28,12 +29,19 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
-
-    if(this.auth_service.user){return true}
-    else{ 
-      this.message_service.showMessageWarning('No esta autorizado para realizar esta accion'); 
-      return false;
+    let control:boolean = true
+    let current_url = state.url
+    
+    if(!this.auth_service.user){ 
+      control = false;
+      if (current_url == '/home'){       
+        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: current_url }});     
+      }
+      else {
+        this.message_service.showMessageWarning('No esta autorizado para realizar esta accion');       
+      }
     }
+    return control;
    
     
     

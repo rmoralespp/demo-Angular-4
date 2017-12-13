@@ -32,7 +32,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+   
    this.subscription_route = this.route.params.subscribe(
       (params)=>{
           this.scroll_page_post = params['scroll'] || 0;
