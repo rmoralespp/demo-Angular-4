@@ -66,4 +66,23 @@ export class AuthService {
     this.setCurrentUser(null);
   }
 
+
+
+
+  createUser(user): Promise<any>{
+    let promise_create = new Promise((resolve, reject)=>{
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      user.id   = users.length + 1; 
+      resolve(user); 
+    });
+    return promise_create
+
+  }
+
+
+  
+
+
+  
+
 }

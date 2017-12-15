@@ -78,6 +78,7 @@ export class PostService {
 
   updatePost(post:Post){
     let url=`${this._api_url}/${post['id']}`;
+    let control = false;
     this.http.put(url,post)
              .map(res => res.json() as Post)
              .subscribe(
@@ -86,10 +87,16 @@ export class PostService {
                   next :(post_data)=>{
                     
                     this._dataStore.posts.forEach((p, i) => {
-                      if (p.id === post_data.id) { this._dataStore.posts[i] = post_data; }
+                      if (p.id === post_data.id) {
+                         this._dataStore.posts[i] = post_data;
+                         control = true;
+                         }
                     });
-                    this._posts$.next(Object.assign({}, this._dataStore).posts);
-                    this.handleMessage("exito",`Post ${post.id} editado con exito`) 
+                    if(control == true){
+                      this._posts$.next(Object.assign({}, this._dataStore).posts);
+                      this.handleMessage("exito",`Post ${post.id} editado con exito`);
+                    }
+                    
                   },
                   error: (error)=> this.handleMessage("error",`${error}`)
                 } 

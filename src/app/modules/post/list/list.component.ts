@@ -29,8 +29,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public posts: Post[];
   public page_posts: Post[];
   public copia_posts:Post[];
-  public message_data: Object;
-  public subscription_message: any;
   public is_delete:boolean;
   public pager:any;
   private current_page:number = 1;
@@ -55,7 +53,6 @@ export class ListComponent implements OnInit, OnDestroy {
           this.scroll_current_page = +params['scroll'] || 0; 
           this.getPosts();
           this.searchPosts();
-          this.observerMessages();
         }
       )
   }
@@ -79,7 +76,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.subscription_post.unsubscribe();
-    this.subscription_message.unsubscribe();
  }
 
   searchPosts(){
@@ -151,20 +147,6 @@ export class ListComponent implements OnInit, OnDestroy {
    }
      
  }
-
- observerMessages(){
-  this.subscription_message=this.message_service.message_emitter.subscribe(
-    (message) =>{
-      this.message_data=message;
-    }
-  );
-}
-
-
-
-
-
-
 
 
 }

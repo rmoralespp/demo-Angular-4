@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot, Route, Router } from '@angular/router';
+import { CanActivate, CanLoad, CanDeactivate ,ActivatedRouteSnapshot, RouterStateSnapshot, Route, Router } from '@angular/router';
 
 import { MessageService } from '../modules/core/services/message.service';
 import { AuthService }    from '../modules/core/services/auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate, CanLoad {
+export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
 
   constructor(
     private router: Router,
@@ -22,9 +22,17 @@ export class AuthGuard implements CanActivate, CanLoad {
     else {
       this.router.navigate(['/auth/login'], { queryParams: { returnUrl: currenturl }});
       return false;
-    }
-    
-    
+    }  
+  }
+
+
+  canDeactivate(
+    component: any,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState: RouterStateSnapshot
+  ):boolean{
+     return true;
   }
 
 

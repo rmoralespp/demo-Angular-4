@@ -1,0 +1,40 @@
+
+<div class="panel panel-primary" style="clear:both">
+  <div class="panel-heading">Users</div>
+  <div class="panel-body">
+      <div class="seccion_menu">
+      </div>
+      <div class="seccion_tabla">  
+          <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                  <th class="col-xs-1">Id</th>
+                  <th class="col-xs-3">User Name</th>
+                  <th class="col-xs-3">First Name</th>
+                  <th class="col-xs-3">Lirst Name</th>
+                  <th class="col-xs-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users; index as i">
+                <td> <span class="badge">{{user.id}}</span></td>
+                <td>{{user.username}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td [ngSwitch]="user.is_delete">
+                  <div class="btn-group" *ngSwitchDefault >
+                      <button (click)="toogleDelete(user)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                  </div>
+                  <div class="btn-group" *ngSwitchCase="true"> 
+                    <button (click)="toogleDelete(user)"class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                    <button (click)="deleteUser(user)" class="btn btn-danger"><span class="glyphicon glyphicon-ok"></span></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+          </div>
+          
+  </div>
+</div>

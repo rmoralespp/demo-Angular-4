@@ -1,2 +1,10 @@
+<div   *ngIf="message" 
+    class="alert alert-dismissible div_mensajes" 
+    role="alert"
+    [ngClass]="message.class"
+    >
+    {{message.text}}
+</div>
+
 <router-outlet></router-outlet>
 
