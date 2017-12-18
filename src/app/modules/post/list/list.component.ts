@@ -12,14 +12,33 @@ import { MessageService } from '../../core/services/message.service';
 import { PagerService } from '../../shared/pager.service';
 import { PostService } from '../post.service';
 
-
 import { Post } from '../post.model';
+
+
+//animaciones
+
+import { trigger, animate, style, state, transition} from '@angular/core';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css'],
+  animations:[
+    trigger('animacion',[
+      state('inactive', style({
+        transform:'scale(1)'
+      })),
+      state('inactive', style({
+        transform:'scale(1.2)'
+      })),
+      transition('inactive => active',   animate('100ms ease-in')),
+      transition('active   => inactive', animate('100ms ease-out')),
+    ])
+    
+  ],
 })
+
+
 
 export class ListComponent implements OnInit, OnDestroy {
 
@@ -34,6 +53,8 @@ export class ListComponent implements OnInit, OnDestroy {
   private current_page:number = 1;
   private scroll_current_page:number = 1;
   
+  estado1 = 'inactive';
+  esatod2 = 'inactive';
   
 
 
@@ -147,6 +168,29 @@ export class ListComponent implements OnInit, OnDestroy {
    }
      
  }
+
+
+
+ ordenar_field(field, tipo='asc'):void{
+  let resultado = null;
+  this.posts.sort((a,b)=>{
+    switch(field){ 
+      case "id":
+         resultado = (tipo == 'asc') ? a.id - b.id: b.id - a.id;       
+         break;
+      
+      case "title":
+         resultado = (tipo == 'asc') ? a.title.localeCompare(b.title): b.title.localeCompare(a.title);       
+         break;
+
+      case "body":
+         resultado = (tipo == 'asc') ? a.body.localeCompare(b.body):  b.body.localeCompare(a.body);       
+         break;
+    }
+  return resultado;  
+})
+this.update_posicion_page();
+} 
 
 
 }

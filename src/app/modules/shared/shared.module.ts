@@ -15,7 +15,8 @@ import { PagerService } from './pager.service';
     CommonModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+   
   ],
   declarations: [],
 

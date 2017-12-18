@@ -17,8 +17,8 @@ export class AuthService {
   public user:  Object;
   
   constructor() {
-    this.user   = null;
-    this._user$ = new BehaviorSubject(null);
+    this.user   = JSON.parse(localStorage.getItem('currentUser')) || null;
+    this._user$ = new BehaviorSubject(this.user);
   
   }
 

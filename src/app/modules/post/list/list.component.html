@@ -3,16 +3,32 @@
   <div class="panel-heading">CRUD Posts</div>
   <div class="panel-body">
       <div class="seccion_menu">
-        <a (click)="newPost()" class="pull-left btn btn-primary">Nuevo Post</a>
+        <a (click)="newPost()" class="pull-left btn btn-primary"
+          
+        >Nuevo Post</a>
         <input [formControl]="searchField" class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
       </div>
       <div class="seccion_tabla">  
           <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                  <th>Id</th>
-                  <th class="col-xs-3">Titulo</th>
-                  <th class="col-xs-6">Contenido</th>
+                  <th>
+                     Id
+                     <a class="pull-right ordenar_asc"  (click)="ordenar_field('id')"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                     <a class="pull-right ordenar_desc" (click)="ordenar_field('id','desc')"><span class="glyphicon glyphicon-chevron-down"></span></a>         
+                 </th>
+
+                  <th class="col-xs-3">
+                      Titulo
+                      <a class="pull-right ordenar_asc"  (click)="ordenar_field('title')"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                      <a class="pull-right ordenar_desc" (click)="ordenar_field('title','desc')"><span class="glyphicon glyphicon-chevron-down"></span></a>          
+                    </th>
+
+                  <th class="col-xs-6">
+                      Contenido
+                      <a class="pull-right ordenar_asc"  (click)="ordenar_field('body')"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                      <a class="pull-right ordenar_desc" (click)="ordenar_field('body','desc')"><span class="glyphicon glyphicon-chevron-down"></span></a>          
+                  </th>
                   <th>Acciones</th>
                 </tr>
             </thead>

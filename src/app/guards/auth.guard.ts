@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
     
     if(!this.auth_service.user){ 
       control = false;
-      if (current_url == '/home'){       
+      if (current_url == '/home' || current_url == '/users/list') {       
         this.router.navigate(['/auth/login'], { queryParams: { returnUrl: current_url }});     
       }
       else {

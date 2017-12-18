@@ -7,3 +7,22 @@
 .pagination li a{
     cursor: pointer !important;
 }
+
+
+td {
+    word-wrap: break-word !important;
+}
+
+
+.ordenar_asc{
+    cursor: pointer;
+    position: relative;
+    top: -5px;
+}
+
+.ordenar_desc{
+    cursor: pointer;
+    position: relative;
+    left: 14px;
+    top: 8px;
+}
