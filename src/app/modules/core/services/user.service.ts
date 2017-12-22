@@ -45,21 +45,39 @@ export class UserService {
 
 
   createUser(user): Promise<any> {
-    const promise_create = new Promise((resolve, reject) => {
-      user.id = this._data_storage.users.length + 1;
-      resolve(user);
-    });
-    promise_create.then(
-      user => {
-         this._data_storage.users.push(user);
-         localStorage.setItem('users', JSON.stringify(this._data_storage.users));
-         this._users$.next(Object.assign({}, this._data_storage).users);
-         return;
+      return new Promise((resolve, reject) => {
+        this.cleanedUser(user)
+              .then( user_data => this.saveUser(user_data))
+              .then( message => {
+                this.message_service.showMessageSuccess(message);
+                return resolve();
+              })
+              .catch( error => {
+                this.message_service.showMessageDanger(error);
+                return reject();
+              });
+      });
+  }
+
+  cleanedUser(user): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const duplicate_user = this._data_storage.users.find(u => u.username == user.username);
+      if (duplicate_user) {
+        return reject(`El usuario ${user.username} ya se encuentra registrado`);
+      } else {
+        user.id = this._data_storage.users.length + 1;
+        return resolve(user);
       }
-    );
+    });
+  }
 
-    return promise_create;
-
+  saveUser(user): Promise<any> {
+      return new Promise((resolve, reject) => {
+        this._data_storage.users.push(user);
+        localStorage.setItem('users', JSON.stringify(this._data_storage.users));
+        this._users$.next(Object.assign({}, this._data_storage).users);
+        return resolve(`El usuario ${user.username} se ha registrado con exito`);
+      });
   }
 
 

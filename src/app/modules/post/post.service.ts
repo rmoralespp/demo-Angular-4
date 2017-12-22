@@ -16,9 +16,7 @@ import { MessageService } from '../core/services/message.service';
 
 @Injectable()
 export class PostService {
-  private _api_url: string = 'https://jsonplaceholder.typicode.com/posts';
-  // private _api_url : string='http://192.168.1.137:8000/api/posts';  
-  // private _api_url : string='/api/posts';
+  private _api_url = 'https://jsonplaceholder.typicode.com/posts';
   private _posts$: BehaviorSubject<Post[]>;
   private _dataStore: { posts: Post[] };
   public  posts$: Observable<Post[]>;
@@ -55,7 +53,7 @@ export class PostService {
 
 
   addPost(post: Post) {
-    this.http.post(this._api_url + '/' , post)
+    this.http.post(this._api_url + '/', post)
               .map(res => res.json() as Post)
               .subscribe(
                 {

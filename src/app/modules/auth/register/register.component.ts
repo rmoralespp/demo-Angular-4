@@ -12,17 +12,16 @@ import { UserService } from '../../core/services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  
   model: any = {};
   loading = false;
 
   constructor(
       private router: Router,
-      private http:Http,
+      private http: Http,
       private user_service: UserService,
     ) { }
 
-  ngOnInit(){
+  ngOnInit() {
   }
 
   register() {
@@ -30,8 +29,9 @@ export class RegisterComponent implements OnInit {
       this.user_service.createUser(this.model)
           .then( ()  =>  {
             this.loading = false;
-            this.router.navigate(['/auth/login'])
-          }  )
+            this.router.navigate(['/auth/login']);
+          })
+          .catch(() => this.loading = false);
         }
 
 }
