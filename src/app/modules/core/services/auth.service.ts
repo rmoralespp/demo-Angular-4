@@ -13,55 +13,49 @@ import 'rxjs/add/operator/do';
 @Injectable()
 export class AuthService {
 
-  public _user$:BehaviorSubject<any>;
+  public _user$: BehaviorSubject<any>;
   public user:  Object;
-  
+
   constructor() {
     this.user   = JSON.parse(localStorage.getItem('currentUser')) || null;
     this._user$ = new BehaviorSubject(this.user);
-  
   }
 
 
-  setCurrentUser(user):void {
+  setCurrentUser(user): void {
     this.user = user;
     this._user$.next(user);
   }
 
 
-  getCurrentUser$(){
+  getCurrentUser$() {
      return this._user$.asObservable();
   }
-  
 
 
-  login(username,password):Observable<any>{
-      let users=JSON.parse(localStorage.getItem('users')) || [];
-    
-      let observable_login = Observable.create( function subscribe(observer){
-        let user:any = {username,password};
-        let filtered_users = users.filter(user_each => {
+
+  login(username, password): Observable<any> {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const observable_login = Observable.create( function subscribe(observer){
+        const user: any = {username, password};
+        const filtered_users = users.filter(user_each => {
           return username === user_each.username && password === user_each.password;
         });
-      
-        if(filtered_users.length == 0){
+
+        if (filtered_users.length == 0) {
           this.user = null;
           observer.error('Credenciales invalidas');
-
-          
-        }
-        else{
-          user.token='fake-jwt-token';
+        } else {
+          user.token = 'fake-jwt-token';
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.user = user;
           observer.next(this.user);
-          
         }
-      })
+      });
       return observable_login;
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('currentUser');
     this.setCurrentUser(null);
   }
@@ -69,20 +63,13 @@ export class AuthService {
 
 
 
-  createUser(user): Promise<any>{
-    let promise_create = new Promise((resolve, reject)=>{
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      user.id   = users.length + 1; 
-      resolve(user); 
+  createUser(user): Promise<any> {
+    const promise_create = new Promise((resolve, reject) => {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      user.id = users.length + 1;
+      resolve(user);
     });
-    return promise_create
+    return promise_create;
 
   }
-
-
-  
-
-
-  
-
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, CanDeactivate ,ActivatedRouteSnapshot, RouterStateSnapshot, Route, Router } from '@angular/router';
+import { CanActivate, CanLoad, CanDeactivate , ActivatedRouteSnapshot, RouterStateSnapshot, Route, Router } from '@angular/router';
 
 import { MessageService } from '../modules/core/services/message.service';
-import { AuthService }    from '../modules/core/services/auth.service';
+import { AuthService } from '../modules/core/services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
@@ -13,16 +13,15 @@ export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
     private auth_service: AuthService
   ) { }
 
-  canLoad(route: Route ): boolean{
-    let currenturl = `/${route.path}`;
+  canLoad(route: Route ): boolean {
+    const currenturl = `/${route.path}`;
 
-    if(this.auth_service.user){
-      return true
-    }
-    else {
+    if (this.auth_service.user) {
+      return true;
+    } else {
       this.router.navigate(['/auth/login'], { queryParams: { returnUrl: currenturl }});
       return false;
-    }  
+    }
   }
 
 
@@ -31,28 +30,25 @@ export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState: RouterStateSnapshot
-  ):boolean{
+  ): boolean {
      return true;
   }
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
-    let control:boolean = true
-    let current_url = state.url
-    
-    if(!this.auth_service.user){ 
+    let control = true;
+    const current_url = state.url;
+
+    if (!this.auth_service.user) {
       control = false;
-      if (current_url == '/home' || current_url == '/users/list') {       
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: current_url }});     
-      }
-      else {
-        this.message_service.showMessageWarning('No esta autorizado para realizar esta accion');       
+      if (current_url == '/home' || current_url == '/users/list') {
+        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: current_url }});
+      } else {
+        this.message_service.showMessageWarning('No esta autorizado para realizar esta accion');
       }
     }
     return control;
-   
-    
-    
+
   }
 
 }
