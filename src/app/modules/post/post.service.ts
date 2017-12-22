@@ -116,7 +116,7 @@ export class PostService {
 
 searchPosts$(termino: string): Observable<Post[]> {
     return this.posts$.map( posts => posts.filter(post =>
-                       post.title.toLowerCase().indexOf(termino.toLowerCase()) !== -1 ));
+                       post.title.toLowerCase().indexOf(termino.toLowerCase()) != -1 ));
 }
 
 
