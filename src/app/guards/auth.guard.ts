@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
     private auth_service: AuthService
   ) { }
 
-  canLoad(route: Route ): boolean {
+  canLoad(route: Route): boolean {
     const currenturl = `/${route.path}`;
 
     if (this.auth_service.user) {
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate, CanLoad, CanDeactivate<any> {
   }
 
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let control = true;
     const current_url = state.url;
 
