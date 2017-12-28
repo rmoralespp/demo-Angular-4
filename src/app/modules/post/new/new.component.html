@@ -3,7 +3,7 @@
   <div *ngIf="post" class="panel-body">
       
     
-    <form novalidate #PostForm="ngForm"  (ngSubmit)="savePost()">
+    <form @flyInOut novalidate #PostForm="ngForm"  (ngSubmit)="savePost()">
       <div class="form-group"
             [ngClass]="{
               'has-error':   titulo.invalid && (titulo.dirty || titulo.touched), 

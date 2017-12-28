@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 
+// animaciones
+import { trigger, animate, style, state, transition, keyframes} from '@angular/core';
 
 // Import Local
 import {PostService} from '../post.service';
@@ -10,7 +12,19 @@ import {Post} from '../post.model';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.css']
+  styleUrls: ['./new.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      transition('void => *', [
+        style({opacity: 0}),
+        animate(1000)
+      ]),
+      transition('* => void', [
+        style({opacity: 0}),
+        animate(1000)
+      ]),
+    ])
+  ],
 })
 export class NewComponent implements OnInit {
   public post: Post;

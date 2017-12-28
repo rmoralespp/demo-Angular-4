@@ -16,23 +16,24 @@ import { Post } from '../post.model';
 
 
 // animaciones
-
-import { trigger, animate, style, state, transition} from '@angular/core';
+import { trigger, animate, style, state, transition, keyframes} from '@angular/core';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
   animations: [
-    trigger('animacion', [
-      state('inactive', style({
-        transform: 'scale(1)'
-      })),
-      state('inactive', style({
-        transform: 'scale(1.2)'
-      })),
-      transition('inactive => active',   animate('100ms ease-in')),
-      transition('active   => inactive', animate('100ms ease-out')),
+    trigger('flyInOut', [
+      transition('void => *', [
+        style({opacity: 0}),
+        animate(1000)
+      ]),
+      transition('* => void', [
+        animate(500, keyframes([
+        style({opacity: 1, transform: 'translateX(-50px)',  offset: 0.3}),
+        style({opacity: 0, transform: 'translateX(0)',      offset: 1.0})
+      ]))
+      ])
     ])
   ],
 })
@@ -51,8 +52,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public pager: any;
   private current_page = 1;
   private scroll_current_page = 1;
-  estado1 = 'inactive';
-  esatod2 = 'inactive';
 
 
   constructor(

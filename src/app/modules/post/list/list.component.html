@@ -3,7 +3,7 @@
   <div class="panel-heading">CRUD Posts</div>
   <div class="panel-body">
       <div class="seccion_menu">
-        <a (click)="newPost()" class="pull-left btn btn-primary"
+        <a  (click)="newPost()" class="pull-left btn btn-primary"
           
         >Nuevo Post</a>
         <input [formControl]="searchField" class="pull-right form-control input_busqueda_post" name="input_busqueda_post" placeholder="Buscar por titulo">  
@@ -33,7 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let post of page_posts; index as i">
+              <tr *ngFor="let post of page_posts; index as i" @flyInOut>
                 <td> <span class="badge">{{post.id}}</span></td>
                 <td>{{post.title}}</td>
                 <td>{{post.body}}</td>

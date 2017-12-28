@@ -11,10 +11,26 @@ import 'rxjs/add/operator/find';
 import {PostService} from '../post.service';
 import {Post} from '../post.model';
 
+// animaciones
+import { trigger, animate, style, state, transition, keyframes} from '@angular/core';
+
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      transition('void => *', [
+        style({opacity: 0}),
+        animate(1000)
+      ]),
+      transition('* => void', [
+        style({opacity: 0}),
+        animate(1000)
+      ]),
+    ])
+  ],
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
